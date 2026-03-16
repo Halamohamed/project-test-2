@@ -30,6 +30,8 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus status;
 
+    private LocalDateTime createdAt;
+
     private LocalDateTime cancellationDate;
 
 
