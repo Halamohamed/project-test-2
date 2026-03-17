@@ -1,6 +1,7 @@
 package se.lexicon.subscriptionapi.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.subscriptionapi.domain.entity.Operator;
 import se.lexicon.subscriptionapi.domain.entity.Plan;
 import se.lexicon.subscriptionapi.dto.request.PlanRequest;
@@ -29,6 +30,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    @Transactional
     public PlanResponse createPlan(PlanRequest planRequest) {
         Operator operator = operatorRepository.findById(planRequest.operatorId())
                 .orElseThrow(()-> new ResourceNotFoundException("Operator not found"));
@@ -45,6 +47,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    @Transactional
     public PlanResponse updatePlan(Long id, PlanRequest planRequest) {
        Plan plan = planRepository.findById(id)
                .orElseThrow(()-> new ResourceNotFoundException("Plan not found"));
@@ -69,6 +72,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    @Transactional
     public void deletePlan(Long id) {
         if(!planRepository.existsById(id)){
             throw new ResourceNotFoundException("Plan not found");
@@ -77,6 +81,7 @@ public class PlanServiceImpl implements PlanService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PlanResponse> findAll() {
         return planRepository.findAll()
@@ -86,6 +91,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PlanResponse> findActivePlan() {
         return planRepository.findByIsActiveTrue()
                 .stream()

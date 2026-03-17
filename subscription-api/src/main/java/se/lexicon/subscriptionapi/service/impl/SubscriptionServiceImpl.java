@@ -1,6 +1,7 @@
 package se.lexicon.subscriptionapi.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.subscriptionapi.domain.constant.SubscriptionStatus;
 import se.lexicon.subscriptionapi.domain.entity.Customer;
 import se.lexicon.subscriptionapi.domain.entity.Plan;
@@ -36,6 +37,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public SubscriptionResponse subscribe(Long id, SubscriptionRequest request) {
 
         Customer customer = customerRepository.findById(id)
@@ -71,6 +73,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public SubscriptionResponse changePlan(Long subscriptionId, Long newPlanId) {
 
         Subscription subscription = subscriptionRepository.findById(subscriptionId)
@@ -93,6 +96,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void cancel(Long subscriptionId) {
         Subscription subscription = subscriptionRepository.findById(subscriptionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
