@@ -8,7 +8,9 @@ import lombok.*;
 import se.lexicon.subscriptionapi.domain.constant.Role;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -56,6 +58,9 @@ public class Customer {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Subscription> subscriptions = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

@@ -17,6 +17,7 @@ import se.lexicon.subscriptionapi.repository.SubscriptionRepository;
 import se.lexicon.subscriptionapi.service.SubscriptionService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -104,5 +105,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setCancellationDate(LocalDateTime.now());
 
 
+    }
+
+    @Override
+    public List<SubscriptionResponse> findByCustomer(Long customerId) {
+        return subscriptionRepository.findByCustomer(customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer not found")))
+                .stream().map(subscriptionMapper::toResponse)
+                .toList();
     }
 }
