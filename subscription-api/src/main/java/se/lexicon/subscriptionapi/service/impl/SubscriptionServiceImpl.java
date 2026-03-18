@@ -108,6 +108,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SubscriptionResponse> findByCustomer(Long customerId) {
         return subscriptionRepository.findByCustomer(customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer not found")))
                 .stream().map(subscriptionMapper::toResponse)
