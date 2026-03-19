@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "operator")
 @Entity
 @Table(name = "plans")
 public class Plan {
@@ -23,7 +23,7 @@ public class Plan {
     @NotBlank
     private String name;
     @NotNull
-    private BigDecimal price;
+    private double price;
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
     private Integer dataLimit;

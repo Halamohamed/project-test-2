@@ -2,6 +2,7 @@ package se.lexicon.subscriptionapi.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.subscriptionapi.domain.constant.ServiceType;
 import se.lexicon.subscriptionapi.domain.entity.Operator;
 import se.lexicon.subscriptionapi.domain.entity.Plan;
 import se.lexicon.subscriptionapi.dto.request.PlanRequest;
@@ -96,6 +97,22 @@ public class PlanServiceImpl implements PlanService {
         return planRepository.findByIsActiveTrue()
                 .stream()
                 .map(planMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlanResponse> findActiveByServiceType(ServiceType serviceType) {
+        return planRepository.findByIsActiveTrueAndServiceType(serviceType).stream()
+                .map(planMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlanResponse> findByOperator(Long operatorId) {
+        return planRepository.findByOperatorIdAndIsActiveTrue(operatorId)
+                .stream().map(planMapper::toResponse)
                 .toList();
     }
 }

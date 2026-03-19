@@ -1,5 +1,6 @@
 package se.lexicon.subscriptionapi.service;
 
+import se.lexicon.subscriptionapi.domain.constant.ServiceType;
 import se.lexicon.subscriptionapi.dto.request.PlanRequest;
 import se.lexicon.subscriptionapi.dto.response.PlanResponse;
 
@@ -13,4 +14,7 @@ public interface PlanService {
     List<PlanResponse> findAll();
     List<PlanResponse> findActivePlan();
 
+    List<PlanResponse> findActiveByServiceType(ServiceType serviceType);
+
+    List<PlanResponse> findByOperator(Long operatorId);
 }

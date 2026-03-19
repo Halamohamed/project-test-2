@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public record PlanResponse(
         Long id,
         String name,
-        BigDecimal price,
+        double price,
         ServiceType serviceType,
         Integer dataLimit,
         boolean isActive,

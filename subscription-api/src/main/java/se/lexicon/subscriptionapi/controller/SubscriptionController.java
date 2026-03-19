@@ -1,5 +1,6 @@
 package se.lexicon.subscriptionapi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @Operation(summary = "subscribe ", description = "Requires JWT.\\n\\nRoles: USER, ADMIN\"" )
     @PostMapping
     public ResponseEntity<SubscriptionResponse> subscribe(@RequestParam Long customerId,
                                                           @RequestBody SubscriptionRequest subscriptionRequest) {
@@ -26,11 +28,13 @@ public class SubscriptionController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @Operation(summary = "find subscription by customer", description = "Requires JWT.\\n\\nRoles: USER, ADMIN\"")
     public ResponseEntity<List<SubscriptionResponse>> findByCustomerId(@PathVariable Long customerId) {
        return ResponseEntity.ok(subscriptionService.findByCustomer(customerId));
     }
 
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "change a plan", description = "Requires JWT.\\n\\nRole: USER\"")
     @PutMapping("/{subscriptionId}/change/{newPlanId}")
     public ResponseEntity<SubscriptionResponse> changePlan(@PathVariable Long subscriptionId,
                                                            @PathVariable Long newPlanId) {

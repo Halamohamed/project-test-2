@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import se.lexicon.subscriptionapi.domain.constant.ServiceType;
 import se.lexicon.subscriptionapi.dto.request.PlanRequest;
 import se.lexicon.subscriptionapi.dto.response.PlanResponse;
 import se.lexicon.subscriptionapi.service.PlanService;
@@ -47,5 +48,17 @@ public class PlanController {
     @GetMapping("/active")
     public ResponseEntity<List<PlanResponse>> findActivePlan() {
         return ResponseEntity.ok(planService.findActivePlan());
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/active/{serviceType}")
+    public ResponseEntity<List<PlanResponse>> findByServiceType(@PathVariable ServiceType serviceType) {
+        return ResponseEntity.ok(planService.findActiveByServiceType(serviceType));
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/operator/{operatorId}")
+    public ResponseEntity<List<PlanResponse>> findByOperator(@PathVariable Long operatorId) {
+      return ResponseEntity.ok(planService.findByOperator(operatorId));
     }
 }

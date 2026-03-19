@@ -31,6 +31,8 @@ public class Operator {
     @OneToMany(mappedBy = "operator")
     private List<Plan> plans = new ArrayList<>();
 
+
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

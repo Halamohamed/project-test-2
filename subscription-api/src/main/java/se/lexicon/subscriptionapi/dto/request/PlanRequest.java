@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public record PlanRequest(
         @NotBlank String name,
-        @NotNull BigDecimal price,
+        @NotNull double price,
         @NotBlank ServiceType serviceType,
         Integer dataLimit,
         boolean isActive,
