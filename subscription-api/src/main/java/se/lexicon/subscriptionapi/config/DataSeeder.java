@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.subscriptionapi.domain.constant.Role;
 import se.lexicon.subscriptionapi.domain.constant.ServiceType;
 import se.lexicon.subscriptionapi.domain.entity.Customer;
@@ -27,11 +28,12 @@ public class DataSeeder implements CommandLineRunner {
     private final PlanRepository planRepository;
     private final OperatorRepository operatorRepository;
 
+    @Transactional
     @Override
     public void run(String... args) throws Exception {
         seedAdminUser();
         seedRegularUser();
-        seedOperator();
+        seedPlanAndOperator();
     }
 
     private void seedAdminUser() {
@@ -62,33 +64,16 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private void seedOperator(){
+    private void seedPlanAndOperator(){
         if (operatorRepository.count() > 0) {
             return;
         }
+
         Operator operator1 = new Operator();
         operator1.setName("Fiber");
         operator1.setCreatedAt(LocalDateTime.now());
-        operator1.setPlans(List.of(new Plan(1L,"Fiber 50", 200.99, ServiceType.INTERNET,50, true,operator1),
-                new Plan(2L, "Fiber 100", 390.99,  ServiceType.INTERNET,100, true,operator1),
-                new Plan(3L, "Fiber 300", 590.99, ServiceType.INTERNET, 300, false, operator1)));
-        Operator operator2 = new Operator();
-        operator2.setName("Mobile");
-        operator2.setCreatedAt(LocalDateTime.now());
-        operator2.setPlans(List.of(new Plan(4L, "Mobile Basic", 190.99,  ServiceType.MOBILE, 5, true, operator2),
-                new Plan(5L, "Mobile Plus", 290.99,   ServiceType.MOBILE, 20, true, operator2),
-                new Plan(6L, "Mobile Unlimited", 490.99, ServiceType.MOBILE, null, false, operator2)));
+        planRepository.save(new Plan("Fiber 50", 200.99, ServiceType.INTERNET,50, true,operator1));
 
-        operatorRepository.save(operator1);
-        operatorRepository.save(operator2);
-
-        // planRepository.save(new Plan(5L,"Fiber 50", 200.99, ServiceType.INTERNET,50, true,operator1));
-       /* planRepository.save(new Plan(2L, "Fiber 100", 390.99,  ServiceType.INTERNET,100, true,operator1));
-        planRepository.save(new Plan(3L, "Fiber 300", 590.99, ServiceType.INTERNET, 300, false, operator1));
-*/
-       // planRepository.save(new Plan(4L, "Mobile Basic", 190.99,  ServiceType.MOBILE, 5, true, operator2));
-      /*  planRepository.save(new Plan(5L, "Mobile Plus", 290.99,   ServiceType.MOBILE, 20, true, operator2));
-        planRepository.save(new Plan(6L, "Mobile Unlimited", 490.99, ServiceType.MOBILE, null, false, operator2));
-   */ }
+    }
 
 }

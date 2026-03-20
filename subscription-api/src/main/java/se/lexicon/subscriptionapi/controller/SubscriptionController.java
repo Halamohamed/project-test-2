@@ -33,7 +33,7 @@ public class SubscriptionController {
        return ResponseEntity.ok(subscriptionService.findByCustomer(customerId));
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @Operation(summary = "change a plan", description = "Requires JWT.\\n\\nRole: USER\"")
     @PutMapping("/{subscriptionId}/change/{newPlanId}")
     public ResponseEntity<SubscriptionResponse> changePlan(@PathVariable Long subscriptionId,
@@ -41,7 +41,7 @@ public class SubscriptionController {
 
         return ResponseEntity.status(HttpStatus.OK).body(subscriptionService.changePlan(subscriptionId, newPlanId));
     }
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PutMapping("/{subscriptionId}/cancel")
     public ResponseEntity<Void> cancel(@PathVariable Long subscriptionId) {
         subscriptionService.cancel(subscriptionId);

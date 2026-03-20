@@ -35,6 +35,11 @@ public class Subscription {
     private LocalDateTime cancellationDate;
 
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
 
 
 }

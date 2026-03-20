@@ -29,9 +29,16 @@ public class Plan {
     private Integer dataLimit;
     private boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "operator_id")
     private Operator operator;
 
-
+    public Plan(String name, double price, ServiceType serviceType, Integer dataLimit, boolean isActive, Operator operator) {
+        this.name = name;
+        this.price = price;
+        this.serviceType = serviceType;
+        this.dataLimit = dataLimit;
+        this.isActive = isActive;
+        this.operator = operator;
+    }
 }
