@@ -1,5 +1,6 @@
 package se.lexicon.subscriptionapi.config;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -115,7 +116,7 @@ public class DataSeeder implements CommandLineRunner {
             IO.println("[DATA_SEED] Customer created: " + email2);
         }
         CustomerDetail taliDetail = new CustomerDetail();
-        Customer tali = customerRepository.findByEmail(email2).orElse(null);
+        Customer tali = customerRepository.findByEmail(email2).orElseThrow();
         taliDetail.setCustomer(tali);
         taliDetail.setPhoneNumber("0721 xxx xx");
 

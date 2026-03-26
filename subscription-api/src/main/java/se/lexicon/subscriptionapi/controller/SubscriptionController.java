@@ -20,7 +20,7 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @Operation(summary = "subscribe ", description = "Requires JWT.\\n\\nRoles: USER, ADMIN\"" )
+    @Operation(summary = "subscribe to a Plan ", description = "Requires JWT.\\n\\nRoles: USER, ADMIN\"" )
     @PostMapping
     public ResponseEntity<SubscriptionResponse> subscribe(@RequestParam Long customerId,
                                                           @RequestBody SubscriptionRequest subscriptionRequest) {
@@ -42,6 +42,7 @@ public class SubscriptionController {
         return ResponseEntity.status(HttpStatus.OK).body(subscriptionService.changePlan(subscriptionId, newPlanId));
     }
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @Operation(summary = "Cancel By Subscription Id", description = "\"Requires JWT.\\n\\nRoles: USER, ADMIN\"")
     @PutMapping("/{subscriptionId}/cancel")
     public ResponseEntity<Void> cancel(@PathVariable Long subscriptionId) {
         subscriptionService.cancel(subscriptionId);
